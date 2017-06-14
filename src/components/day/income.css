@@ -1,0 +1,16 @@
+.circle-income
+  {
+    border-radius: 50%;
+    width: 46px;
+    height: 46px;
+    background: #1B2185;
+    opacity: 0.4;
+    /*-moz-border-radius: 15px; 
+    -webkit-border-radius: 15px; */
+    margin-right: 3px;
+    color: black;
+  }
+
+.value {
+    color: black;
+}

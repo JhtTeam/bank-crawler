@@ -1,0 +1,12 @@
+.circle-outcome
+  {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background: #D03A02;
+    opacity: 0.4;
+  }
+
+  .value {
+      color: black;
+  }

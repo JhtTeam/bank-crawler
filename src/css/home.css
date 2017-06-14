@@ -1,0 +1,200 @@
+@charset "UTF-8";
+
+/* span */
+.size18{font-size: 18px;}
+.blue{color: #4990E2;}
+.red{color: #D0011B;}
+
+/* area */
+#contentsArea{  
+    height: 100%;
+    margin: 50px 0 50px 0;
+    overflow: hidden;
+} 
+
+/* h1 */
+.yymm{
+	width: 100%;
+	height: 40px;
+	padding-top: 6px;
+	text-align: center;
+	font-size: 22px;
+	color: #4A4A4A;
+	overflow: hidden;
+}
+
+.about_yymm{
+	width: 80%;
+	margin-top: 7px;
+	float: left;
+}
+
+.arrow_l{
+	width: 10%;
+	float: left;
+}
+
+.arrow_r{
+	width: 10%;
+	float: left;
+}
+
+.arrow{
+	width: 10px;
+	margin-top: 10px;
+}
+
+/* h2 */
+.income{
+	width: 100%;
+	height: 44px;
+	line-height: 210%;
+	text-align: center;
+	font-size: 22px;
+	background-color: #F0F2EF;
+}
+
+.asset{
+	width: 100%;
+	height: 44px;
+	line-height: 210%;
+	text-align: center;
+	font-size: 22px;
+	background-color: #F0F2EF;
+	border-bottom: 1px solid #d0d1cf ;
+}
+
+.w_area{
+	width: 100%;
+}
+
+.w_about{
+	width: 14.28%;
+	height: 20px;
+	border-bottom: 1px solid #F0F2EF;
+	font-size: 8px;
+	line-height: 230%;
+}
+
+.day{
+	width: 14.28%;
+	height: 75px;
+	border-bottom: 1px solid #F0F2EF;
+}
+
+.day_about{
+	width: 14.28%;
+	height: 75px;
+	font-size: 8px;
+	text-align: center;
+}
+
+.today{
+	width: 14.28%;
+	height: 75px;
+	font-size: 8px;
+	text-align: center;
+	background-color: #c0e3fb;
+}
+
+.day_icon{
+	width: 10px;
+	margin-left: 2px;
+}
+
+.price_icon{
+	width: 10px;
+	margin-right: 2px;
+}
+
+
+.date{
+	height: 19px;
+	font-size: 16px;
+	line-height: 130%;
+}
+
+.holiday{
+	height: 14px;
+	color:#D0011B;
+	text-align: left;
+	line-height: 150%;
+	padding-left: 4px;
+}
+
+.freetxt{
+	height: 16px;
+	text-align: left;
+	line-height: 140%;
+	padding-left: 4px;
+}
+
+.payment{
+	height: 12px;
+	color: #1B2185;
+	text-align: right;
+	line-height: 130%;
+	padding-right: 4px;
+}
+
+.withdrawal{
+	height: 14px;
+	color: #D0011B;
+	text-align: right;
+	line-height: 130%;
+	padding-right: 4px;
+}
+
+.ac_menu{
+	overflow: hidden;
+}
+
+.category{
+	width: 96%;
+	height: 44px;
+	padding: 0 2% 0 2% ;
+	line-height: 280%;
+}
+
+.category li{
+	float: left;
+}
+
+.arrow_u{
+	width:8%;
+	height: 34px;
+    margin-top: 10px;
+}
+
+.category_a{
+	width:52%;
+	height: 44px;
+	font-size: 20px;
+}
+
+.money{
+	width:40%;
+	height: 44px;
+	color: #4a4a4a;
+	text-align: right;
+	font-size: 22px;
+}
+
+.ac{
+	height: 100%;
+	width: 100%;
+	padding: 2% 1% 2% 1%;
+	background-color: #f1f1f1;
+	border-bottom: 1px solid #d0d1cf;
+	overflow: hidden;
+}
+
+.ac li{
+	float: left;
+	padding: 1%;
+}
+
+.ac img{
+	width: 115px;
+}
+
