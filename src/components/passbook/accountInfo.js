@@ -14,18 +14,14 @@ class AccountInfo extends Component {
                     {bankName}
                 </div>
                 <div className="bank_about">
-                    <ul>
-                        <li className="store_name">{branchName}</li>
-                        <li className="store_number">{branch}</li>
-                        <li className="account_name">{accountName}</li>
-                        <li className="account_number">{account}</li>
-                    </ul>
+                    <span className="store_name">{branchName}</span>
+                    <span className="store_number">{branch}</span>
+                    <span className="account_name">{accountName}</span>
+                    <span className="account_number">{account}</span>
                 </div>
                 <div className="bank_balance">
-                    <ul>
-                        <li className="balance">現残高</li>
-                        <li className="balance_money">¥ {balanceMoney}</li>
-                    </ul>
+                    <span className="balance">現残高</span>
+                    <span className="balance_money">¥ {balanceMoney}</span>
                 </div>
             </div>
         );

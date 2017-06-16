@@ -1,0 +1,22 @@
+.column-abridgement {
+    color: #FD4520;
+    font-size: 12px;
+    text-align: center;
+}
+
+.column-date {
+    font-size: 11px;
+    text-align: center;
+}
+
+.column {
+    font-size: 14px;
+    text-align: center;
+}
+
+.withdrawal-header {
+    font-size: 12px;
+    margin: 0px;
+    color: #FD4520;
+    text-align: center;
+}

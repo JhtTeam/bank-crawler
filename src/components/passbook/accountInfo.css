@@ -2,26 +2,36 @@
 	width: 100%;
 	border-top: 5px solid #A00115;
 	border-bottom: 5px solid #A00115;
+	background-color: #F9F7F7;
 }
 
 .bank_name{
-	width: 90%;
+	width: 100%;
 	padding: 4% 5% 3% 5% ;
 	font-size: 20px;
 	text-align: left;
-	background-color: #F9F7F7;
 }
 
 .bank_about{
 	width: 100%;
 	text-align: right;
-	padding-bottom: 3%;
-	background-color: #F9F7F7;
+	padding: 3% 5% 2% 5% ;
 	overflow: hidden;
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 }
 
-.bank_about li{
-	float: left;
+.bank_balance{
+	width: 100%;
+	padding: 3% 5% 2% 5% ;
+	overflow: hidden;
+	background-color: #ECEBEB;
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 }
 
 .store_name{
@@ -34,4 +44,30 @@
 .store_number{
 	width: 13%;
 	font-size: 22px;
+}
+
+.account_name{
+	width: 20%;
+	font-size: 14px;
+	font-weight: bold ;
+	line-height: 160%;
+}
+
+.account_number{
+	width: 32%;
+	font-size: 22px;
+}
+
+.balance{
+	width: 50%;
+	font-weight: bold ;
+	line-height: 200%;
+	font-size: 16px;
+}
+
+.balance_money{
+	width: 50%;
+	font-size: 26px;
+	text-align: right;
+	line-height: 120%;
 }
