@@ -20,3 +20,54 @@
     color: #FD4520;
     text-align: center;
 }
+
+.public_fixedDataTableCell_main {
+  background-color: #fff;
+  border-color: #FD4520;
+}
+
+.public_fixedDataTableCell_cellContent {
+  padding: 5px;
+  border-color: #FD4520;
+}
+
+
+.public_fixedDataTableRow_highlighted,
+.public_fixedDataTableRow_highlighted .public_fixedDataTableCell_main {
+  background-color: #fff;
+}
+
+.fixedDataTableCellGroupLayout_cellGroup {
+    border-color: #FD4520;
+    border-width: 0px 0px 1px 0;
+    border-style: solid;
+}
+
+.public_fixedDataTable_main {
+    border-color: #FD4520;
+    text-align: center;
+}
+
+.fixedDataTableCellLayout_wrap1 {
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 11px;
+}
+
+.public_fixedDataTable_header {
+    border-color: #FD4520;
+    background-color: white;
+}
+
+.fixedDataTableLayout_main {
+    width: 100%;
+}
+
+.fixedDataTableCellLayout_wrap1 {
+    height: 100%;
+    width: 100%;
+}
+
+.public_fixedDataTableRow_fixedColumnsDivider {
+    border: 0px;
+}

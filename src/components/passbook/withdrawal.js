@@ -8,7 +8,45 @@ import { withdrawalStatementData } from '../../mock';
 import 'bootstrap/dist/css/bootstrap.css';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import NumberFormat from 'react-number-format';
+import moment from 'moment';
+import Moment from 'react-moment';
+
+import { Table, Column, Cell } from 'fixed-data-table-2';
+// import 'fixed-data-table/dist/fixed-data-table.css';
+import 'fixed-data-table-2/dist/fixed-data-table.css';
 import './withdrawal.css';
+
+const TextCell = ({rowIndex, data, col, style, props}) => {
+    return (
+        <Cell {...props}>
+            <span style={style}>{data[rowIndex][col]}</span>
+        </Cell>
+    );
+};
+
+const HeaderCell = ({ text, style, props }) => {
+    return (
+        <Cell {...props}>
+            <span style={style}>{text}</span>
+        </Cell>
+    );
+};
+
+const PriceCell = ({rowIndex, data, col, style, props})=> {
+    return (
+        <Cell {...props}>
+            <NumberFormat value={data[rowIndex][col]} displayType={'text'} thousandSeparator={true} prefix={'¥'} style={style} />
+        </Cell>
+    );
+} 
+
+const DateCell = ({rowIndex, data, col, style, props})=> {
+    return (
+        <Cell {...props}>
+            <Moment format="YYYY MM-DD">{data[rowIndex][col]}</Moment>
+        </Cell>
+    );
+} 
 
 class Withdrawal extends Component {
     render() {
@@ -24,57 +62,44 @@ class Withdrawal extends Component {
             const cell1Width = windowWidth * 0.12 | 0;
             const cellWidth = windowWidth * 0.22 | 0;
             const lastCellWidth = windowWidth - cell1Width - 3 * cellWidth;
+
             console.log(windowWidth + " -- " + cell1Width + " -- " + cellWidth + " -- " + lastCellWidth);
-            const borerStyle={ border: '#FD4520 1px solid', textAlign: 'center', verticalAlign: 'middle', minHeight: 44 };
             return (
-                <BootstrapTable data={withdrawals} striped hover condensed 
-                    tableHeaderClass='withdrawal-header'
-                    bodyStyle={{ textAlign: 'center' }}>
-                    <TableHeaderColumn 
-                        dataField="date" 
+
+                <Table
+                    rowsCount={withdrawals.length}
+                    rowHeight={50}
+                    width={windowWidth}
+                    headerHeight={27}
+                    height={50 * withdrawals.length + 52}>
+                    <Column
+                        columnKey="date"
+                        header={<HeaderCell text="日付" style={styleHeader} />}
+                        cell={<DateCell data={withdrawals} col="date" style={{fontSize: 11}}/>}
+                        fixed={true}
                         width={cell1Width}
-                        columnClassName="column-date" 
-                        isKey={true} 
-                        tdStyle={borerStyle} 
-                        thStyle={borerStyle}>
-                        日付
-                    </TableHeaderColumn>
-                    <TableHeaderColumn 
-                        dataField="abridgement" 
+                        />
+                    <Column
+                        header={<HeaderCell text="お取引内容" style={styleHeader} />}
+                        cell={<TextCell data={withdrawals} col="abridgement" style={{ color: '#FD4520', fontSize: 12 }} />}
                         width={cellWidth}
-                        columnClassName="column-abridgement" 
-                        tdStyle={borerStyle} 
-                        thStyle={borerStyle}>
-                        お取引内容
-                    </TableHeaderColumn>
-                    <TableHeaderColumn 
-                        dataField="payment" 
+                        />
+                    <Column
+                        header={<HeaderCell text="お支払い" style={styleHeader} />}
+                        cell={<PriceCell data={withdrawals} col="payment" style={{fontSize: 14}}/>}
                         width={cellWidth}
-                        columnClassName="column" 
-                        tdStyle={borerStyle} 
-                        thStyle={borerStyle}
-                        dataFormat={this.priceFormatter}>
-                        お支払い
-                    </TableHeaderColumn>
-                    <TableHeaderColumn 
-                        dataField="receipt"
-                        width={cellWidth} 
-                        columnClassName="column" 
-                        tdStyle={borerStyle} 
-                        thStyle={borerStyle}
-                        dataFormat={this.priceFormatter}>
-                        お預かり
-                    </TableHeaderColumn>
-                    <TableHeaderColumn 
-                        dataField="balance"
-                        width={lastCellWidth} 
-                        columnClassName="column" 
-                        tdStyle={borerStyle} 
-                        thStyle={borerStyle}
-                        dataFormat={this.priceFormatter}>
-                        差引残高
-                    </TableHeaderColumn>
-                </BootstrapTable>
+                        />
+                    <Column
+                        header={<HeaderCell text="お預かり" style={styleHeader} />}
+                        cell={<PriceCell data={withdrawals} col="receipt" style={{fontSize: 14}} />}
+                        width={cellWidth}
+                        />
+                    <Column
+                        header={<HeaderCell text="差引残高" style={styleHeader} />}
+                        cell={<PriceCell data={withdrawals} col="balance" style={{fontSize: 14}}/>}                    
+                        width={lastCellWidth}
+                        />
+                </Table>
             );
         }
         return (
@@ -105,6 +130,11 @@ class Withdrawal extends Component {
             { key: 'balance', name: '差引残高', width: cellWidth, headerRenderer: WithdrawalHeader },
         ];
     }
+}
+
+const styleHeader = {
+    color: '#FD4520',
+    fontSize: 12,
 }
 
 const mapStateToProps = (state, ownProps) => {
