@@ -43,7 +43,7 @@ const PriceCell = ({rowIndex, data, col, style, props})=> {
 const DateCell = ({rowIndex, data, col, style, props})=> {
     return (
         <Cell {...props}>
-            <Moment format="YYYY MM-DD">{data[rowIndex][col]}</Moment>
+            <Moment format="YYYY MM-DD" style={style}>{data[rowIndex][col]}</Moment>
         </Cell>
     );
 } 
@@ -78,26 +78,32 @@ class Withdrawal extends Component {
                         cell={<DateCell data={withdrawals} col="date" style={{fontSize: 11}}/>}
                         fixed={true}
                         width={cell1Width}
+                        align="center"
+                        allowCellsRecycling={true}
                         />
                     <Column
                         header={<HeaderCell text="お取引内容" style={styleHeader} />}
                         cell={<TextCell data={withdrawals} col="abridgement" style={{ color: '#FD4520', fontSize: 12 }} />}
                         width={cellWidth}
+                        align="center"
                         />
                     <Column
                         header={<HeaderCell text="お支払い" style={styleHeader} />}
                         cell={<PriceCell data={withdrawals} col="payment" style={{fontSize: 14}}/>}
                         width={cellWidth}
+                        align="center"
                         />
                     <Column
                         header={<HeaderCell text="お預かり" style={styleHeader} />}
                         cell={<PriceCell data={withdrawals} col="receipt" style={{fontSize: 14}} />}
                         width={cellWidth}
+                        align="center"
                         />
                     <Column
                         header={<HeaderCell text="差引残高" style={styleHeader} />}
                         cell={<PriceCell data={withdrawals} col="balance" style={{fontSize: 14}}/>}                    
                         width={lastCellWidth}
+                        align="center"
                         />
                 </Table>
             );
