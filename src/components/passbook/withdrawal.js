@@ -10,6 +10,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import NumberFormat from 'react-number-format';
 import moment from 'moment';
 import Moment from 'react-moment';
+import Dimensions from 'react-dimensions'
 
 import { Table, Column, Cell } from 'fixed-data-table-2';
 // import 'fixed-data-table/dist/fixed-data-table.css';
@@ -32,25 +33,41 @@ const HeaderCell = ({ text, style, props }) => {
     );
 };
 
-const PriceCell = ({rowIndex, data, col, style, props})=> {
+const PriceCell = ({rowIndex, data, col, style, props}) => {
     return (
         <Cell {...props}>
             <NumberFormat value={data[rowIndex][col]} displayType={'text'} thousandSeparator={true} prefix={'¥'} style={style} />
         </Cell>
     );
-} 
+}
 
-const DateCell = ({rowIndex, data, col, style, props})=> {
+const DateCell = ({rowIndex, data, col, style, props}) => {
     return (
         <Cell {...props}>
             <Moment format="YYYY MM-DD" style={style}>{data[rowIndex][col]}</Moment>
         </Cell>
     );
-} 
+}
 
 class Withdrawal extends Component {
+    // constructor() {
+    //     super();
+    //     this.state = {
+    //         windowWidth: window.innerWidth,
+    //     }
+    // }
+    // componentDidMount() {
+    //     window.addEventListener("resize", this.updateDimensions.bind(this));
+    // }
+    // componentWillUnmount() {
+    //     window.removeEventListener("resize", this.updateDimensions.bind(this));
+    // }
+    // updateDimensions(e) {
+    //     console.log("updateDimensions.... forceUpdate: " + window.innerWidth);
+    //     this.setState(Object.assign({}, this.state, { windowWidth: window.innerWidth }));
+    // }
+    
     render() {
-        console.log(this.props);
         // const { withdrawalStatementData } = this.props;
         const withdrawals = withdrawalStatementData.details;
         // const withdrawals = require('../')
@@ -58,7 +75,7 @@ class Withdrawal extends Component {
         // console.log(withdrawals);
 
         if (withdrawals && withdrawals.length > 0) {
-            const windowWidth = window.innerWidth;
+            const windowWidth = this.props.containerWidth;
             const cell1Width = windowWidth * 0.12 | 0;
             const cellWidth = windowWidth * 0.22 | 0;
             const lastCellWidth = windowWidth - cell1Width - 3 * cellWidth;
@@ -75,7 +92,7 @@ class Withdrawal extends Component {
                     <Column
                         columnKey="date"
                         header={<HeaderCell text="日付" style={styleHeader} />}
-                        cell={<DateCell data={withdrawals} col="date" style={{fontSize: 11}}/>}
+                        cell={<DateCell data={withdrawals} col="date" style={{ fontSize: 11 }} />}
                         fixed={true}
                         width={cell1Width}
                         align="center"
@@ -89,19 +106,19 @@ class Withdrawal extends Component {
                         />
                     <Column
                         header={<HeaderCell text="お支払い" style={styleHeader} />}
-                        cell={<PriceCell data={withdrawals} col="payment" style={{fontSize: 14}}/>}
+                        cell={<PriceCell data={withdrawals} col="payment" style={{ fontSize: 14 }} />}
                         width={cellWidth}
                         align="center"
                         />
                     <Column
                         header={<HeaderCell text="お預かり" style={styleHeader} />}
-                        cell={<PriceCell data={withdrawals} col="receipt" style={{fontSize: 14}} />}
+                        cell={<PriceCell data={withdrawals} col="receipt" style={{ fontSize: 14 }} />}
                         width={cellWidth}
                         align="center"
                         />
                     <Column
                         header={<HeaderCell text="差引残高" style={styleHeader} />}
-                        cell={<PriceCell data={withdrawals} col="balance" style={{fontSize: 14}}/>}                    
+                        cell={<PriceCell data={withdrawals} col="balance" style={{ fontSize: 14 }} />}
                         width={lastCellWidth}
                         align="center"
                         />
@@ -157,4 +174,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Withdrawal);
+export default connect(mapStateToProps, mapDispatchToProps)(Dimensions()(Withdrawal));
