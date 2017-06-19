@@ -50,22 +50,6 @@ const DateCell = ({rowIndex, data, col, style, props}) => {
 }
 
 class Withdrawal extends Component {
-    // constructor() {
-    //     super();
-    //     this.state = {
-    //         windowWidth: window.innerWidth,
-    //     }
-    // }
-    // componentDidMount() {
-    //     window.addEventListener("resize", this.updateDimensions.bind(this));
-    // }
-    // componentWillUnmount() {
-    //     window.removeEventListener("resize", this.updateDimensions.bind(this));
-    // }
-    // updateDimensions(e) {
-    //     console.log("updateDimensions.... forceUpdate: " + window.innerWidth);
-    //     this.setState(Object.assign({}, this.state, { windowWidth: window.innerWidth }));
-    // }
     
     render() {
         // const { withdrawalStatementData } = this.props;
@@ -88,7 +72,7 @@ class Withdrawal extends Component {
                     rowHeight={50}
                     width={windowWidth}
                     headerHeight={27}
-                    height={50 * withdrawals.length + 52}>
+                    height={50 * withdrawals.length}>
                     <Column
                         columnKey="date"
                         header={<HeaderCell text="日付" style={styleHeader} />}
@@ -140,12 +124,6 @@ class Withdrawal extends Component {
         const cell1Width = windowWidth * 0.12;
         const cellWidth = windowWidth * 0.22;
         return [
-            // {key: 'date', name: '日付', headerRenderer: WithdrawalHeader},
-            // {key: 'abridgement', name: 'お取引内容',  headerRenderer: WithdrawalHeader},
-            // {key: 'payment', name: 'お支払い',  headerRenderer: WithdrawalHeader},
-            // {key: 'receipt', name: 'お預かり',  headerRenderer: WithdrawalHeader},
-            // {key: 'balance', name: '差引残高',  headerRenderer: WithdrawalHeader},
-
             { key: 'date', name: '日付', width: cell1Width, headerRenderer: WithdrawalHeader },
             { key: 'abridgement', name: 'お取引内容', width: cellWidth, headerRenderer: WithdrawalHeader },
             { key: 'payment', name: 'お支払い', width: cellWidth, headerRenderer: WithdrawalHeader },
