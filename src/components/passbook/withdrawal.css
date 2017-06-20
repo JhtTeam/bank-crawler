@@ -1,5 +1,6 @@
-.grid {
-    border: 1px solid #FD4520;
+.Grid {
+    border-left: 1px solid #FD4520;
+    border-right: 1px solid #FD4520;
 }
 .cell,
 .headerCell {
@@ -12,12 +13,13 @@
 }
 .headerCell {
     color: #FD4520;
+    border-right: 1px solid #FD4520;
+    border-bottom: 1px solid #FD4520;
     font-size: 12px;
 }
 .cell {
   border-right: 1px solid #FD4520;
   border-bottom: 1px solid #FD4520;
-  color: #000;
   font-size: 14px;
 }
 .evenRow,
@@ -37,27 +39,4 @@
 .abridgementCell {
     font-size: 12px;
     color: #FD4520;
-}
-
-.column-abridgement {
-    color: #FD4520;
-    font-size: 12px;
-    text-align: center;
-}
-
-.column-date {
-    font-size: 11px;
-    text-align: center;
-}
-
-.column {
-    font-size: 14px;
-    text-align: center;
-}
-
-.withdrawal-header {
-    font-size: 12px;
-    margin: 0px;
-    color: #FD4520;
-    text-align: center;
 }

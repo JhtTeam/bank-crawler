@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import AccountInfo from './accountInfo';
 import Withdrawal from './withdrawal';
+import Dimensions from 'react-dimensions';
 import { accessToken, bankCode, branch, branchName, type, account, accountName, bankName } from '../../constants';
 import './passbook.css';
-import Dimensions from 'react-dimensions';
 
 class Passbook extends Component {
     render() {
