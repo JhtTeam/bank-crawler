@@ -10,7 +10,11 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import NumberFormat from 'react-number-format';
 import moment from 'moment';
 import Moment from 'react-moment';
-import Dimensions from 'react-dimensions'
+
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
+import Grid from 'react-virtualized/dist/commonjs/Grid'
+import cn from 'classnames';
+import styles from './withdrawal.css';
 
 import { Table, Column, Cell } from 'fixed-data-table-2';
 // import 'fixed-data-table/dist/fixed-data-table.css';
@@ -49,8 +53,10 @@ const DateCell = ({rowIndex, data, col, style, props}) => {
     );
 }
 
+const rowHeight = 40;
+
 class Withdrawal extends Component {
-    
+
     render() {
         // const { withdrawalStatementData } = this.props;
         const withdrawals = withdrawalStatementData.details;
@@ -59,54 +65,41 @@ class Withdrawal extends Component {
         // console.log(withdrawals);
 
         if (withdrawals && withdrawals.length > 0) {
-            const windowWidth = this.props.containerWidth;
-            const cell1Width = windowWidth * 0.12 | 0;
-            const cellWidth = windowWidth * 0.22 | 0;
-            const lastCellWidth = windowWidth - cell1Width - 3 * cellWidth;
-
-            console.log(windowWidth + " -- " + cell1Width + " -- " + cellWidth + " -- " + lastCellWidth);
             return (
-
-                <Table
-                    rowsCount={withdrawals.length}
-                    rowHeight={50}
-                    width={windowWidth}
-                    headerHeight={27}
-                    height={50 * withdrawals.length}>
-                    <Column
-                        columnKey="date"
-                        header={<HeaderCell text="日付" style={styleHeader} />}
-                        cell={<DateCell data={withdrawals} col="date" style={{ fontSize: 11 }} />}
-                        fixed={true}
-                        width={cell1Width}
-                        align="center"
-                        allowCellsRecycling={true}
-                        />
-                    <Column
-                        header={<HeaderCell text="お取引内容" style={styleHeader} />}
-                        cell={<TextCell data={withdrawals} col="abridgement" style={{ color: '#FD4520', fontSize: 12 }} />}
-                        width={cellWidth}
-                        align="center"
-                        />
-                    <Column
-                        header={<HeaderCell text="お支払い" style={styleHeader} />}
-                        cell={<PriceCell data={withdrawals} col="payment" style={{ fontSize: 14 }} />}
-                        width={cellWidth}
-                        align="center"
-                        />
-                    <Column
-                        header={<HeaderCell text="お預かり" style={styleHeader} />}
-                        cell={<PriceCell data={withdrawals} col="receipt" style={{ fontSize: 14 }} />}
-                        width={cellWidth}
-                        align="center"
-                        />
-                    <Column
-                        header={<HeaderCell text="差引残高" style={styleHeader} />}
-                        cell={<PriceCell data={withdrawals} col="balance" style={{ fontSize: 14 }} />}
-                        width={lastCellWidth}
-                        align="center"
-                        />
-                </Table>
+                <AutoSizer disableHeight>
+                    {({ width, height }) => {
+                        console.log(width + " - " + height);
+                        return (
+                            <Grid
+                                cellRenderer={this._cellRenderer}
+                                columnWidth={({index}) => {
+                                    console.log(width);
+                                    const cell1Width = width * 0.12 | 0;
+                                    const cellWidth = width * 0.22 | 0;
+                                    const lastCellWidth = width - cell1Width - 3 * cellWidth;
+                                    switch (index) {
+                                        case 0:
+                                            return cell1Width;
+                                        case 1:
+                                            return cellWidth;
+                                        case 2:
+                                            return cellWidth;
+                                        case 3:
+                                            return cellWidth;
+                                        default:
+                                            return lastCellWidth;
+                                    }
+                                } }
+                                columnCount={5}
+                                height={height}
+                                rowHeight={40}
+                                rowCount={withdrawals.length}
+                                width={width}
+                                className="Grid"
+                                />
+                        );
+                    } }
+                </AutoSizer>
             );
         }
         return (
@@ -115,27 +108,52 @@ class Withdrawal extends Component {
             </div>
         );
     }
-
-    priceFormatter(cell, row) {
-        return <NumberFormat value={cell} displayType={'text'} thousandSeparator={true} prefix={'¥'} />
+    _cellRenderer({ columnIndex, key, rowIndex, style }) {
+        var classNames = cn("evenRow", "cell", "centeredCell");
+        const withdrawals = withdrawalStatementData.details;
+        const data = withdrawals[rowIndex];
+        // console.log(data);
+        var text = "";
+        switch (columnIndex) {
+            case 0:
+                text = data["date"];
+                classNames = cn(classNames, "dateCell");
+                return (
+                    <div className={classNames} key={key} style={style}>
+                        {text}
+                    </div>
+                );
+            case 1:
+                text = data["abridgement"];
+                classNames = cn(classNames, "abridgementCell");
+                return (
+                    <div className={classNames} key={key} style={style}>
+                        {text}
+                    </div>
+                );
+            case 2:
+                text = data["payment"];
+                return (
+                    <div className={classNames} key={key} style={style}>
+                        <NumberFormat value={text} displayType={'text'} thousandSeparator={true} prefix={'¥'} />
+                    </div>
+                );
+            case 3:
+                text = data["receipt"];
+                return (
+                    <div className={classNames} key={key} style={style}>
+                        <NumberFormat value={text} displayType={'text'} thousandSeparator={true} prefix={'¥'} />
+                    </div>
+                );
+            default:
+                text = data["balance"];
+                return (
+                    <div className={classNames} key={key} style={style}>
+                        <NumberFormat value={text} displayType={'text'} thousandSeparator={true} prefix={'¥'} />
+                    </div>
+                );
+        }
     }
-    _getColumns() {
-        const windowWidth = window.innerWidth;
-        const cell1Width = windowWidth * 0.12;
-        const cellWidth = windowWidth * 0.22;
-        return [
-            { key: 'date', name: '日付', width: cell1Width, headerRenderer: WithdrawalHeader },
-            { key: 'abridgement', name: 'お取引内容', width: cellWidth, headerRenderer: WithdrawalHeader },
-            { key: 'payment', name: 'お支払い', width: cellWidth, headerRenderer: WithdrawalHeader },
-            { key: 'receipt', name: 'お預かり', width: cellWidth, headerRenderer: WithdrawalHeader },
-            { key: 'balance', name: '差引残高', width: cellWidth, headerRenderer: WithdrawalHeader },
-        ];
-    }
-}
-
-const styleHeader = {
-    color: '#FD4520',
-    fontSize: 12,
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -152,4 +170,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dimensions()(Withdrawal));
+export default connect(mapStateToProps, mapDispatchToProps)(Withdrawal);
