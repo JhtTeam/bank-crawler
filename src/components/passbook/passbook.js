@@ -34,4 +34,4 @@ class Passbook extends Component {
     }
 }
 
-export default Dimensions()(Passbook);
+export default Dimensions({ containerStyle: { display: 'inline-block', width: '100%' } })(Passbook);

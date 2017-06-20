@@ -16,14 +16,12 @@ class App extends Component {
         return (
             <MuiThemeProvider>
                 <Provider store={store}>
-                    <div className="App" style={{ minHeight: '100vh' }}>
+                    <div className="App" style={{ minHeight: window.innerHeight }}>
                         <Toolbar className="Toolbar" style={{ justifyContent: 'center', backgroundColor: 'transparent' }}>
                             <ToolbarTitle text="通帳" />
                         </Toolbar>
                         <div style={{ flex: 1, display: 'flex', width: '100%' }}>
-                            <div style={{ display: 'inline-block', width: '100%'}}>
-                                <Passbook />
-                            </div>
+                            <Passbook />
                         </div>
                         <MyBottomNavigation />
                     </div>
