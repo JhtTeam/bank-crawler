@@ -49,7 +49,7 @@ class Withdrawal extends Component {
                                 } }
                                 columnCount={5}
                                 height={height}
-                                rowHeight={40}
+                                rowHeight={this._getRowHeight.bind(this)}
                                 rowCount={withdrawals.length + 1}
                                 width={width}
                                 className="Grid"
@@ -64,6 +64,10 @@ class Withdrawal extends Component {
 
             </div>
         );
+    }
+
+    _getRowHeight({ index }) {
+        return (index == 0) ? 27 : 40;
     }
 
     _cellRenderer({ columnIndex, key, rowIndex, style }) {
@@ -94,7 +98,7 @@ class Withdrawal extends Component {
             );
         } else {
             var classNames = cn("evenRow", "cell", "centeredCell");
-            const data = withdrawalStatementData.details[rowIndex];
+            const data = withdrawalStatementData.details[rowIndex - 1];
             // console.log(data);
             var text = "";
             switch (columnIndex) {
@@ -103,7 +107,7 @@ class Withdrawal extends Component {
                     classNames = cn(classNames, "dateCell");
                     return (
                         <div className={classNames} key={key} style={style}>
-                            {text}
+                            <Moment format="YYYY MM-DD">{text}</Moment>
                         </div>
                     );
                 case 1:

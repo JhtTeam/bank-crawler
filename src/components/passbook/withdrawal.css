@@ -1,4 +1,7 @@
 .Grid {
+    
+}
+.ReactVirtualized__Grid__innerScrollContainer {
     border-left: 1px solid #FD4520;
     border-right: 1px solid #FD4520;
 }
