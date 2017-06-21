@@ -23,12 +23,14 @@ export function withdrawalStatementReducer(state = {
     error: null
 }, action) {
     switch (action.type) {
-        case "BALANCE_INUQUIRY_PENDING":
+        case "WITHDRAWABLE_STATEMENENT_INQUIRY_CACHED_FULFILLED":
+            return { details: action.payload, isFetching: false, dataFetched: true, error: null };
+        case "WITHDRAWABLE_STATEMENENT_INQUIRY_REMOTE_PENDING":
             return { details: [], isFetching: true, dataFetched: false, error: null };
-        case "BALANCE_INUQUIRY_FULFILLED":
-            return { balance: action.payload, isFetching: false, dataFetched: true, error: null };
-        case "BALANCE_INUQUIRY_REJECTED":
-            return { balance: [], isFetching: false, dataFetched: false, error: action.payload };
+        case "WITHDRAWABLE_STATEMENENT_INQUIRY_REMOTE_FULFILLED":
+            return { details: action.payload, isFetching: false, dataFetched: true, error: null };
+        case "WITHDRAWABLE_STATEMENENT_INQUIRY_REMOTE_REJECTED":
+            return { details: [], isFetching: false, dataFetched: false, error: action.payload };
         default: 
             return state;
     }

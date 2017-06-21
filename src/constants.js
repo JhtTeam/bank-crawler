@@ -8,6 +8,14 @@ export function getWithdrawalStatementInquiryUrl(bankCode) {
     return `${END_POINT}/api/v1/banks/${bankCode}/withdrawalStatementInquiry`;
 }
 
+export function getBankAuthenticationUrl(bankCode) {
+    return `${END_POINT}/api/v1/banks/${bankCode}/authentication`;
+}
+
+export function getBankDeauthenticationUrl(bankCode) {
+    return `${END_POINT}/api/v1/banks/${bankCode}/deauthentication`;
+}
+
 export const accessToken = "cfe427b5-8ff0-436d-bda5-7465232bf4ed";
 export const bankCode = "0000";
 export const branch = "000";

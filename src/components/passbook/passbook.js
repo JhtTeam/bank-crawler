@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import AccountInfo from './accountInfo';
 import Withdrawal from './withdrawal';
 import Dimensions from 'react-dimensions';

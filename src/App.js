@@ -4,7 +4,6 @@ import Passbook from './components/passbook/passbook';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import { Toolbar, ToolbarTitle } from 'material-ui/Toolbar';
 import MyBottomNavigation from './components/bottomNavigation';
 
@@ -23,7 +22,7 @@ class App extends Component {
                         <div style={{ flex: 1, display: 'flex', width: '100%' }}>
                             <Passbook />
                         </div>
-                        <MyBottomNavigation />
+                        
                     </div>
                 </Provider>
             </MuiThemeProvider>

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { getWithdrawalStatementInquiry } from './actions';
 import { connect } from 'react-redux';
-import { withdrawalStatementData } from '../../mock';
+// import { withdrawalStatementData } from '../../mock';
 
 import NumberFormat from 'react-number-format';
-import moment from 'moment';
 import Moment from 'react-moment';
 
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
@@ -14,12 +13,13 @@ import cn from 'classnames';
 import './withdrawal.css';
 
 class Withdrawal extends Component {
+    componentDidMount() {
+        this.props.loadWithdrawalStatement();
+    }
+    
     render() {
-        // const { withdrawalStatementData } = this.props;
+        const { withdrawalStatementData } = this.props;
         const withdrawals = withdrawalStatementData.details;
-        // const withdrawals = require('../')
-        // const columns = this._getColumns();
-        // console.log(withdrawals);
 
         if (withdrawals && withdrawals.length > 0) {
             return (
@@ -32,7 +32,9 @@ class Withdrawal extends Component {
 
                         return (
                             <Grid
-                                cellRenderer={this._cellRenderer}
+                                cellRenderer={({ columnIndex, key, rowIndex, style }) => {
+                                    return this._cellRenderer({ columnIndex, key, rowIndex, style, withdrawals })
+                                }}
                                 columnWidth={({index}) => {
                                     switch (index) {
                                         case 0:
@@ -67,13 +69,14 @@ class Withdrawal extends Component {
     }
 
     _getRowHeight({ index }) {
-        return (index == 0) ? 27 : 40;
+        return (index === 0) ? 27 : 40;
     }
 
-    _cellRenderer({ columnIndex, key, rowIndex, style }) {
+    _cellRenderer({ columnIndex, key, rowIndex, style, withdrawals }) {
+        var classNames = "";
+        var text = "";
         if (rowIndex === 0) {
-            var classNames = cn("centeredCell", "headerCell");
-            var text = "";
+            classNames = cn("centeredCell", "headerCell");
             switch (columnIndex) {
                 case 0:
                     text = "日付";
@@ -97,10 +100,8 @@ class Withdrawal extends Component {
                 </div>
             );
         } else {
-            var classNames = cn("evenRow", "cell", "centeredCell");
-            const data = withdrawalStatementData.details[rowIndex - 1];
-            // console.log(data);
-            var text = "";
+            classNames = cn("evenRow", "cell", "centeredCell");
+            const data = withdrawals[rowIndex - 1];
             switch (columnIndex) {
                 case 0:
                     text = data["date"];
