@@ -11,11 +11,12 @@ export function getBalanceInquiryApi(accessToken, bankCode, branch, type, accoun
         account: account
     };
     return new Promise((resolve, reject) => {
-        axios.post(url, postData, {
-            headers: {
-                "X-Fsip-Access-Token": accessToken,
-            }
-        })
+        // axios.post(url, postData, {
+        //     headers: {
+        //         "X-Fsip-Access-Token": accessToken,
+        //     }
+        // })
+        axios.get("https://s3-ap-northeast-1.amazonaws.com/qmr-cloud-s3-dev/bank/balance.json")
             .then(res => res.data)
             .then(data => resolve(data))
             .catch(err => reject(err));

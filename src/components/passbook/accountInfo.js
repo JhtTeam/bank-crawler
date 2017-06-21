@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import './accountInfo.css';
 
 class AccountInfo extends Component {
+    componentDidMount() {
+        this.props.loadBalanceInquiry();
+    }
     render() {
         console.log(this.props);
         const { bankName, account, accountName, branch, branchName, balanceData } = this.props;
