@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import './App.css';
 import Passbook from './components/passbook/passbook';
+import Home from './components/home/home';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import { Toolbar, ToolbarTitle } from 'material-ui/Toolbar';
 import MyBottomNavigation from './components/bottomNavigation';
 
+import { getWithdrawals } from './local';
+
 const store = configureStore();
 
 class App extends Component {
-
+    
     render() {
+        console.log("App getwithdraw from cached");
+        console.log(getWithdrawals());
+        
         return (
             <MuiThemeProvider>
                 <Provider store={store}>
@@ -22,7 +29,6 @@ class App extends Component {
                         <div style={{ flex: 1, display: 'flex', width: '100%' }}>
                             <Passbook />
                         </div>
-                        
                     </div>
                 </Provider>
             </MuiThemeProvider>

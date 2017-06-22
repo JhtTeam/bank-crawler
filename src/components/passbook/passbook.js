@@ -1,37 +1,73 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import AccountInfo from './accountInfo';
 import Withdrawal from './withdrawal';
 import Dimensions from 'react-dimensions';
-import { accessToken, bankCode, branch, branchName, type, account, accountName, bankName } from '../../constants';
+import { getBankAuthentication } from './actions';
+import { bankCode, branch, branchName, type, account, pin, accountName, bankName } from '../../constants';
+import { getAccessToken } from '../../local';
 import './passbook.css';
 
-class Passbook extends Component {
-    render() {
-        return (
-            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', minHeight: this.props.containerHeight }}>
-                <AccountInfo
-                    bankName={bankName}
-                    accessToken={accessToken}
-                    bankCode={bankCode}
-                    branch={branch}
-                    branchName={branchName}
-                    type={type}
-                    account={account}
-                    accountName={accountName} />
-                <div style={{ flex: 1, display: 'flex', width: '100%' }}>
-                    <div style={{ display: 'inline-block', width: '100%' }}>
-                        <Withdrawal
-                            accessToken={accessToken}
-                            bankCode={bankCode}
-                            branch={branch}
-                            type={type}
-                            account={account} />
-                    </div>
-                </div>
+var accessToken = getAccessToken();
 
-            </div>
-        );
+class Passbook extends Component {
+    componentDidMount() {
+        if (!accessToken) {
+            this.props.getBankAuthentication();
+        }
+    }
+    
+    render() {
+        if (!accessToken) {
+            const { bankAuthenticationData } = this.props;
+            accessToken = (bankAuthenticationData) ? bankAuthenticationData.accessToken : null;
+            console.log("Passbook... accessToken = " + accessToken);
+        }
+        if (accessToken) {
+            return (
+                <div style={{ display: 'flex', flexDirection: 'column', width: '100%', minHeight: this.props.containerHeight }}>
+                    <AccountInfo
+                        bankName={bankName}
+                        accessToken={accessToken}
+                        bankCode={bankCode}
+                        branch={branch}
+                        branchName={branchName}
+                        type={type}
+                        account={account}
+                        accountName={accountName} />
+                    <div style={{ flex: 1, display: 'flex', width: '100%' }}>
+                        <div style={{ display: 'inline-block', width: '100%' }}>
+                            <Withdrawal
+                                accessToken={accessToken}
+                                bankCode={bankCode}
+                                branch={branch}
+                                type={type}
+                                account={account} />
+                        </div>
+                    </div>
+
+                </div>
+            );
+        } else {
+            return (
+                <div></div>
+            );
+        }
     }
 }
 
-export default Dimensions({ containerStyle: { display: 'inline-block', width: '100%' } })(Passbook);
+const mapStateToProps = (state, ownProps) => {
+    return {
+        bankAuthenticationData: state.bankAuthenticationData
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        getBankAuthentication: () => {
+            dispatch(getBankAuthentication(bankCode, branch, type, account, pin))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dimensions({ containerStyle: { display: 'inline-block', width: '100%' } })(Passbook))

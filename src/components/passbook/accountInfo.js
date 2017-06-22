@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getBalanceInquiry } from './actions';
 import { connect } from 'react-redux';
+import { getBalance } from '../../local';
 import './accountInfo.css';
 
 class AccountInfo extends Component {
@@ -10,7 +11,10 @@ class AccountInfo extends Component {
     render() {
         console.log(this.props);
         const { bankName, account, accountName, branch, branchName, balanceData } = this.props;
-        const balanceMoney = balanceData ? balanceData.balance : 0;
+        var balance = getBalance();
+        if (balanceData && balanceData.balance) {
+            balance = balanceData ? balanceData.balance : 0;
+        }
         return (
             <div className="account_info">
                 <div className="bank_name">
@@ -24,7 +28,7 @@ class AccountInfo extends Component {
                 </div>
                 <div className="bank_balance">
                     <span className="balance">現残高</span>
-                    <span className="balance_money">¥ {balanceMoney}</span>
+                    <span className="balance_money">¥ {balance}</span>
                 </div>
             </div>
         );

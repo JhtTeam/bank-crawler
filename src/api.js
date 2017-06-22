@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { encrypt } from './crypter';
 import { getBalanceInquiryUrl, getWithdrawalStatementInquiryUrl, getBankAuthenticationUrl, getBankDeauthenticationUrl } from './constants';
-import { saveWithdrawals } from './local';
+import { saveWithdrawals, saveAccessToken, saveBalance } from './local';
+import { appKey } from './constants';
 
 export function getBalanceInquiryApi(accessToken, bankCode, branch, type, account) {
     const url = getBalanceInquiryUrl(bankCode);
@@ -11,14 +11,20 @@ export function getBalanceInquiryApi(accessToken, bankCode, branch, type, accoun
         account: account
     };
     return new Promise((resolve, reject) => {
-        // axios.post(url, postData, {
-        //     headers: {
-        //         "X-Fsip-Access-Token": accessToken,
-        //     }
-        // })
-        axios.get("https://s3-ap-northeast-1.amazonaws.com/qmr-cloud-s3-dev/bank/balance.json")
+        axios.post(url, postData, {
+            headers: {
+                "Content-Type": "application/json;charset=utf-8",
+                "X-Fsip-Access-Token": accessToken,
+                "AppKey": appKey,
+            }
+        })
+        // axios.get("https://s3-ap-northeast-1.amazonaws.com/qmr-cloud-s3-dev/bank/balance.json")
             .then(res => res.data)
-            .then(data => resolve(data))
+            .then(data => {
+                const balance = data.balance;
+                saveBalance(balance);
+                resolve(balance)
+            })
             .catch(err => reject(err));
     });
 }
@@ -31,38 +37,48 @@ export function getWithdrawalStatementInquiryApi(accessToken, bankCode, branch, 
         account: account
     };
     return new Promise((resolve, reject) => {
-        // axios.post(url, postData, {
-        //     headers: {
-        //         "X-Fsip-Access-Token": accessToken,
-        //     }
-        // })
-        // .then(res => res.data)
-        // .then(data => resolve(data.details))
-        // .catch(err => reject(err));
-        axios.get("https://s3-ap-northeast-1.amazonaws.com/qmr-cloud-s3-dev/bank/withdrawals.json")
-            .then(res => res.data)
-            .then(data => {
-                //encrypt data first
-                saveWithdrawals(encrypt(JSON.stringify(data)));
-                resolve(data.details)
-            })
-            .catch(err => reject(err));
+        axios.post(url, postData, {
+            headers: {
+                "Content-Type": "application/json;charset=utf-8",
+                "X-Fsip-Access-Token": accessToken,
+                "AppKey": appKey,
+            }
+        })
+        .then(res => res.data)
+        .then(data => {
+            //save to local storage
+            const details = data.details;
+            saveWithdrawals(details);
+            resolve(details)
+        })
+        .catch(err => reject(err));
     });
 }
 
-export function bankAuthentication(bankCode, branch, type, account, pin, balance) {
+export function bankAuthentication(bankCode, branch, type, account, pin) {
     const url = getBankAuthenticationUrl(bankCode);
     const postData = {
         branch: branch,
         type: type,
         account: account,
         pin: pin,
-        balance: balance,
     };
+    console.log(postData);
+    console.log(appKey);
     return new Promise((resolve, reject) => {
-        axios.post(url, postData)
+        axios.post(url, postData, {
+            headers: {
+                "Content-Type": "application/json;charset=utf-8",
+                "AppKey": appKey,
+            }
+        })
             .then(res => res.data)
-            .then(data => resolve(data))
+            .then(data => {
+                //save to local storage
+                const accessToken = data["access-token"];
+                saveAccessToken(accessToken);
+                resolve(accessToken)
+            })
             .catch(err => reject(err));
     });
 }

@@ -1,4 +1,4 @@
-import { getBalanceInquiryApi, getWithdrawalStatementInquiryApi } from '../../api';
+import { bankAuthentication, getBalanceInquiryApi, getWithdrawalStatementInquiryApi } from '../../api';
 // import { withdrawalStatementData } from '../../mock';
 import { getWithdrawals } from '../../local';
 
@@ -33,5 +33,12 @@ export function getWithdrawalStatementInquiry(accessToken, bankCode, branch, typ
                 })
             ])
         });
+    }
+}
+
+export function getBankAuthentication(bankCode, branch, type, account, pin) {
+    return {
+        type: 'BANK_AUTHENTICATION',
+        payload: bankAuthentication(bankCode, branch, type, account, pin)
     }
 }
