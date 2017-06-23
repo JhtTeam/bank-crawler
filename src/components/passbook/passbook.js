@@ -8,7 +8,7 @@ import { bankCode, branch, branchName, type, account, pin, accountName, bankName
 import { getAccessToken } from '../../local';
 import './passbook.css';
 
-var accessToken = getAccessToken();
+var accessToken = "";
 
 class Passbook extends Component {
     componentDidMount() {
@@ -18,41 +18,33 @@ class Passbook extends Component {
     }
     
     render() {
-        if (!accessToken) {
-            const { bankAuthenticationData } = this.props;
-            accessToken = (bankAuthenticationData) ? bankAuthenticationData.accessToken : null;
-            console.log("Passbook... accessToken = " + accessToken);
-        }
-        if (accessToken) {
-            return (
-                <div style={{ display: 'flex', flexDirection: 'column', width: '100%', minHeight: this.props.containerHeight }}>
-                    <AccountInfo
-                        bankName={bankName}
-                        accessToken={accessToken}
-                        bankCode={bankCode}
-                        branch={branch}
-                        branchName={branchName}
-                        type={type}
-                        account={account}
-                        accountName={accountName} />
-                    <div style={{ flex: 1, display: 'flex', width: '100%' }}>
-                        <div style={{ display: 'inline-block', width: '100%' }}>
-                            <Withdrawal
-                                accessToken={accessToken}
-                                bankCode={bankCode}
-                                branch={branch}
-                                type={type}
-                                account={account} />
-                        </div>
+        const { bankAuthenticationData } = this.props;
+        accessToken = (bankAuthenticationData.accessToken) ? bankAuthenticationData.accessToken : getAccessToken();
+        console.log("Passbook... accessToken = " + accessToken);
+        return (
+            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', minHeight: this.props.containerHeight }}>
+                <AccountInfo
+                    bankName={bankName}
+                    accessToken={accessToken}
+                    bankCode={bankCode}
+                    branch={branch}
+                    branchName={branchName}
+                    type={type}
+                    account={account}
+                    accountName={accountName} />
+                <div style={{ flex: 1, display: 'flex', width: '100%' }}>
+                    <div style={{ display: 'inline-block', width: '100%' }}>
+                        <Withdrawal
+                            accessToken={accessToken}
+                            bankCode={bankCode}
+                            branch={branch}
+                            type={type}
+                            account={account} />
                     </div>
-
                 </div>
-            );
-        } else {
-            return (
-                <div></div>
-            );
-        }
+
+            </div>
+        );
     }
 }
 

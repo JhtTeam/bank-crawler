@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getWithdrawalStatementInquiry } from './actions';
 import { connect } from 'react-redux';
 // import { withdrawalStatementData } from '../../mock';
+import Snackbar from 'material-ui/Snackbar';
 
 import NumberFormat from 'react-number-format';
 import Moment from 'react-moment';
@@ -13,15 +14,38 @@ import cn from 'classnames';
 import './withdrawal.css';
 
 class Withdrawal extends Component {
-    componentDidMount() {
-        this.props.loadWithdrawalStatement();
+    constructor(props) {
+        super(props);
+        const { accessToken } = this.props;
+        if (accessToken) {
+            this.props.loadWithdrawalStatement(accessToken);
+        }
     }
-    
+
+    componentWillReceiveProps(nextProps) {
+        const accessToken = this.props.accessToken;
+        const nextAccessToken = nextProps.accessToken;
+        if (nextAccessToken && accessToken !== nextAccessToken) {
+            this.props.loadWithdrawalStatement(nextAccessToken);
+        }
+    }
     render() {
         const { withdrawalStatementData } = this.props;
         const withdrawals = withdrawalStatementData.details;
+        const error = withdrawalStatementData.error;
 
-        if (withdrawals && withdrawals.length > 0) {
+        if (error) {
+            return (
+                <div>
+                    <Snackbar
+                        open={true}
+                        message={error}
+                        autoHideDuration={4000}
+                        />
+                </div>
+            );
+        }
+        else if (withdrawals && withdrawals.length > 0) {
             return (
                 <AutoSizer disableHeight>
                     {({ width, height }) => {
@@ -34,7 +58,7 @@ class Withdrawal extends Component {
                             <Grid
                                 cellRenderer={({ columnIndex, key, rowIndex, style }) => {
                                     return this._cellRenderer({ columnIndex, key, rowIndex, style, withdrawals })
-                                }}
+                                } }
                                 columnWidth={({index}) => {
                                     switch (index) {
                                         case 0:
@@ -159,9 +183,9 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
-    const { accessToken, bankCode, branch, type, account } = ownProps;
+    const { bankCode, branch, type, account } = ownProps;
     return {
-        loadWithdrawalStatement: () => {
+        loadWithdrawalStatement: (accessToken) => {
             dispatch(getWithdrawalStatementInquiry(accessToken, bankCode, branch, type, account))
         }
     }

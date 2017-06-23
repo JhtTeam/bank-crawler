@@ -10,6 +10,7 @@ export function getBalanceInquiryApi(accessToken, bankCode, branch, type, accoun
         type: type,
         account: account
     };
+    console.log("getBalanceInquiryApi : " + accessToken);
     return new Promise((resolve, reject) => {
         axios.post(url, postData, {
             headers: {
@@ -25,7 +26,7 @@ export function getBalanceInquiryApi(accessToken, bankCode, branch, type, accoun
                 saveBalance(balance);
                 resolve(balance)
             })
-            .catch(err => reject(err));
+            .catch(err => reject(err.message));
     });
 }
 
@@ -51,7 +52,7 @@ export function getWithdrawalStatementInquiryApi(accessToken, bankCode, branch, 
             saveWithdrawals(details);
             resolve(details)
         })
-        .catch(err => reject(err));
+        .catch(err => reject(err.message));
     });
 }
 
@@ -79,7 +80,7 @@ export function bankAuthentication(bankCode, branch, type, account, pin) {
                 saveAccessToken(accessToken);
                 resolve(accessToken)
             })
-            .catch(err => reject(err));
+            .catch(err => reject(err.message));
     });
 }
 
@@ -98,6 +99,6 @@ export function bankDeauthentication(accessToken, bankCode, branch, type, accoun
         })
             .then(res => res.data)
             .then(data => resolve(data))
-            .catch(err => reject(err));
+            .catch(err => reject(err.message));
     });
 }

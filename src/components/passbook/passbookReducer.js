@@ -5,11 +5,13 @@ export function balanceReducer(state = {
     error: null
 }, action) {
     switch (action.type) {
-        case "BALANCE_INUQUIRY_PENDING":
+        case "BALANCE_INUQUIRY_CACHED_FULFILLED":
+            return { balance: action.payload, isFetching: false, dataFetched: true, error: null }
+        case "BALANCE_INUQUIRY_REMOTE_PENDING":
             return { balance: null, isFetching: true, dataFetched: false, error: null };
-        case "BALANCE_INUQUIRY_FULFILLED":
+        case "BALANCE_INUQUIRY_REMOTE_FULFILLED":
             return { balance: action.payload, isFetching: false, dataFetched: true, error: null };
-        case "BALANCE_INUQUIRY_REJECTED":
+        case "BALANCE_INUQUIRY_REMOTE_REJECTED":
             return { balance: null, isFetching: false, dataFetched: false, error: action.payload };
         default: 
             return state;   

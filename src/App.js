@@ -10,15 +10,14 @@ import { Toolbar, ToolbarTitle } from 'material-ui/Toolbar';
 import MyBottomNavigation from './components/bottomNavigation';
 
 import { getWithdrawals } from './local';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 const store = configureStore();
 
 class App extends Component {
     
     render() {
-        console.log("App getwithdraw from cached");
-        console.log(getWithdrawals());
-        
         return (
             <MuiThemeProvider>
                 <Provider store={store}>

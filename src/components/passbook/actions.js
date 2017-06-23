@@ -1,20 +1,26 @@
 import { bankAuthentication, getBalanceInquiryApi, getWithdrawalStatementInquiryApi } from '../../api';
-// import { withdrawalStatementData } from '../../mock';
-import { getWithdrawals } from '../../local';
+import { getWithdrawals, getBalance } from '../../local';
 
 export function getBalanceInquiry(accessToken, bankCode, branch, type, account) {
-    return {
-        type: 'BALANCE_INUQUIRY',
-        payload: getBalanceInquiryApi(accessToken, bankCode, branch, type, account)
+    return dispatch => {
+        return dispatch({
+            type: 'BALANCE_INUQUIRY',
+            payload: Promise.all([
+                dispatch({
+                    type: "BALANCE_INUQUIRY_CACHED",
+                    payload: new Promise((resolve, reject) => {
+                        resolve(getBalance());
+                    })
+                }),
+                dispatch({
+                    type: 'BALANCE_INUQUIRY_REMOTE',
+                    payload: getBalanceInquiryApi(accessToken, bankCode, branch, type, account)
+                })
+            ])
+        })
     }
-}
 
-// export function getWithdrawalStatementInquiry(accessToken, bankCode, branch, type, account) {
-//     return {
-//         type: 'WITHDRAWABLE_STATEMENENT_INQUIRY',
-//         payload: getWithdrawalStatementInquiryApi(accessToken, bankCode, branch, type, account)
-//     }
-// }
+}
 
 export function getWithdrawalStatementInquiry(accessToken, bankCode, branch, type, account) {
     return dispatch => {

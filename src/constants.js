@@ -24,5 +24,5 @@ export const account = "3000001";
 export const pin = "1234";
 export const accountName = "口座番号";
 export const bankName = "スマート銀行"
-
 export const appKey = "NLCB2OShUDulHDuqKKAj2DKDM2ppRr4b";
+export const accessTokenTimeout = 60 * 60 * 1000;
