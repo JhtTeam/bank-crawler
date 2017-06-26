@@ -8,9 +8,7 @@ class AccountInfo extends Component {
     constructor(props) {
         super(props);
         const { accessToken } = this.props;
-        if (accessToken) {
-            this.props.loadBalanceInquiry(accessToken);
-        }
+        this.props.loadBalanceInquiry(accessToken);
     }
     componentWillReceiveProps(nextProps) {
         // console.log(nextProps);

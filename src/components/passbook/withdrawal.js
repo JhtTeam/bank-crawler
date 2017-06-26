@@ -17,9 +17,7 @@ class Withdrawal extends Component {
     constructor(props) {
         super(props);
         const { accessToken } = this.props;
-        if (accessToken) {
-            this.props.loadWithdrawalStatement(accessToken);
-        }
+        this.props.loadWithdrawalStatement(accessToken);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -34,18 +32,7 @@ class Withdrawal extends Component {
         const withdrawals = withdrawalStatementData.details;
         const error = withdrawalStatementData.error;
 
-        if (error) {
-            return (
-                <div>
-                    <Snackbar
-                        open={true}
-                        message={error}
-                        autoHideDuration={4000}
-                        />
-                </div>
-            );
-        }
-        else if (withdrawals && withdrawals.length > 0) {
+        if (withdrawals && withdrawals.length > 0) {
             return (
                 <AutoSizer disableHeight>
                     {({ width, height }) => {
@@ -83,6 +70,16 @@ class Withdrawal extends Component {
                         );
                     } }
                 </AutoSizer>
+            );
+        } else if (error) {
+            return (
+                <div>
+                    <Snackbar
+                        open={true}
+                        message={error}
+                        autoHideDuration={4000}
+                        />
+                </div>
             );
         }
         return (
