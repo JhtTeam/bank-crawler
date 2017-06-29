@@ -10,6 +10,7 @@ import Moment from 'react-moment';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import Grid from 'react-virtualized/dist/commonjs/Grid'
 import cn from 'classnames';
+import Dimensions from 'react-dimensions';
 
 import './withdrawal.css';
 
@@ -20,6 +21,18 @@ class Withdrawal extends Component {
         this.props.loadWithdrawalStatement(accessToken);
     }
 
+    componentWillUpdate(nextProps, nextState) {
+        // console.log("Withdrawal... componentWillUpdate : " + JSON.stringify(nextProps));
+        // Check for your update condition however you need to...
+        if (nextProps.containerWidth !== this.props.containerWidth) {
+            console.log(this.refs);
+            const GridRef = this.refs.AutoSizer.refs.Grid;
+            if (GridRef) {
+                GridRef.recomputeGridSize()
+            }
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         const accessToken = this.props.accessToken;
         const nextAccessToken = nextProps.accessToken;
@@ -28,25 +41,28 @@ class Withdrawal extends Component {
         }
     }
     render() {
+        console.log("Withdrawal... render");
         const { withdrawalStatementData } = this.props;
         const withdrawals = withdrawalStatementData.details;
         const error = withdrawalStatementData.error;
 
         if (withdrawals && withdrawals.length > 0) {
             return (
-                <AutoSizer disableHeight>
+                <AutoSizer disableHeight ref="AutoSizer">
                     {({ width, height }) => {
-                        console.log(width + " - " + height);
+                        console.log("Withdrawal.... " + width + " - " + height);
                         const cell1Width = width * 0.12 | 0;
                         const cellWidth = width * 0.22 | 0;
                         const lastCellWidth = width - cell1Width - 3 * cellWidth;
-
+                        console.log(cell1Width + " - " + cellWidth + " -- " + lastCellWidth);
                         return (
                             <Grid
+                                ref='Grid'
                                 cellRenderer={({ columnIndex, key, rowIndex, style }) => {
                                     return this._cellRenderer({ columnIndex, key, rowIndex, style, withdrawals })
                                 } }
                                 columnWidth={({index}) => {
+                                    console.log("columnWidth... ")
                                     switch (index) {
                                         case 0:
                                             return cell1Width;
@@ -122,6 +138,9 @@ class Withdrawal extends Component {
             );
         } else {
             classNames = cn("evenRow", "cell", "centeredCell");
+            if (rowIndex % 2 === 0) {
+                classNames = cn("oddRow", "cell", "centeredCell");
+            }
             const data = withdrawals[rowIndex - 1];
             switch (columnIndex) {
                 case 0:
@@ -142,25 +161,38 @@ class Withdrawal extends Component {
                     );
                 case 2:
                     text = data["payment"];
-                    return (
-                        <div className={classNames} key={key} style={style}>
-                            <NumberFormat value={text} displayType={'text'} thousandSeparator={true} prefix={'¥'} />
-                        </div>
-                    );
+                    if (text === "0") {
+                        return (<div className={classNames} key={key} style={style}></div>);
+                    } else {
+                        return (
+                            <div className={classNames} key={key} style={style}>
+                                <NumberFormat value={text} displayType={'text'} thousandSeparator={true} prefix={'¥'} />
+                            </div>
+                        );
+                    }
+
                 case 3:
                     text = data["receipt"];
-                    return (
-                        <div className={classNames} key={key} style={style}>
-                            <NumberFormat value={text} displayType={'text'} thousandSeparator={true} prefix={'¥'} />
-                        </div>
-                    );
+                    if (text === "0") {
+                        return (<div className={classNames} key={key} style={style}></div>);
+                    } else {
+                        return (
+                            <div className={classNames} key={key} style={style}>
+                                <NumberFormat value={text} displayType={'text'} thousandSeparator={true} prefix={'¥'} />
+                            </div>
+                        );
+                    }
                 default:
                     text = data["balance"];
-                    return (
-                        <div className={classNames} key={key} style={style}>
-                            <NumberFormat value={text} displayType={'text'} thousandSeparator={true} prefix={'¥'} />
-                        </div>
-                    );
+                    if (text === "0") {
+                        return (<div className={classNames} key={key} style={style}></div>);
+                    } else {
+                        return (
+                            <div className={classNames} key={key} style={style}>
+                                <NumberFormat value={text} displayType={'text'} thousandSeparator={true} prefix={'¥'} />
+                            </div>
+                        );
+                    }
             }
         }
     }
@@ -188,4 +220,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Withdrawal);
+// export default connect(mapStateToProps, mapDispatchToProps)(Withdrawal);
+export default connect(mapStateToProps, mapDispatchToProps)(Dimensions({containerStyle: { display: 'inline-block', width: '100%' }})(Withdrawal))

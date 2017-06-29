@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 import Passbook from './components/passbook/passbook';
 import Home from './components/home/home';
-
+import {
+    BrowserRouter as Router,
+    Route,
+} from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
-import { Toolbar, ToolbarTitle } from 'material-ui/Toolbar';
 import MyBottomNavigation from './components/bottomNavigation';
 
 import { getWithdrawals } from './local';
@@ -16,19 +18,21 @@ injectTapEventPlugin();
 const store = configureStore();
 
 class App extends Component {
-    
+
     render() {
         return (
             <MuiThemeProvider>
                 <Provider store={store}>
-                    <div className="App" style={{ minHeight: window.innerHeight }}>
-                        <Toolbar className="Toolbar" style={{ justifyContent: 'center', backgroundColor: 'transparent' }}>
-                            <ToolbarTitle text="通帳" />
-                        </Toolbar>
-                        <div style={{ flex: 1, display: 'flex', width: '100%' }}>
-                            <Passbook />
+                    <Router>
+                        <div className="App" style={{ minHeight: window.innerHeight }}>
+                            <div style={{ flex: 1, display: 'flex', width: '100%' }}>
+
+                                <Route exact path="/" component={Passbook} />
+                                <Route path="/home" component={Home} />
+
+                            </div>
                         </div>
-                    </div>
+                    </Router>
                 </Provider>
             </MuiThemeProvider>
         );

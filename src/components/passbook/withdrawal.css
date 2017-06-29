@@ -25,12 +25,15 @@
   border-bottom: 1px solid #FD4520;
   font-size: 14px;
 }
+.evenRow {
+  background-color: #FAFAFA;
+}
 .evenRow,
 .oddRow {
   border-bottom: 1px solid #FD4520;
 }
 .oddRow {
-  background-color: #fafafa;
+  background-color: #F9E7E4;
 }
 .centeredCell {
   align-items: center;
