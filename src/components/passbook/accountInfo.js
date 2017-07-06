@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getBalanceInquiry } from './actions';
 import { connect } from 'react-redux';
 import { getBalance } from '../../local';
+import NumberFormat from 'react-number-format';
 import './accountInfo.css';
 
 class AccountInfo extends Component {
@@ -40,7 +41,7 @@ class AccountInfo extends Component {
                     </div>
                     <div className="bank_balance">
                         <span className="balance">現残高</span>
-                        <span className="balance_money">¥ {balance}</span>
+                        <NumberFormat className="balance_money" value={balance} displayType={'text'} thousandSeparator={true} prefix={'¥'} />
                     </div>
                 </div>
             );

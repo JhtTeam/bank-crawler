@@ -13,12 +13,22 @@
   flex-direction: column;
   justify-content: center;
   padding: 0 .5em;
+  align-items: center;
+  text-align: center;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  /*max-height: 3.6em;
+  line-height: 1.5em;*/
 }
 .headerCell {
     color: #FD4520;
     border-right: 1px solid #FD4520;
     border-bottom: 1px solid #FD4520;
     font-size: 12px;
+}
+.headerCellExportCSV {
+  font-size: 11px;
 }
 .cell {
   border-right: 1px solid #FD4520;
@@ -45,4 +55,10 @@
 .abridgementCell {
     font-size: 12px;
     color: #FD4520;
+}
+.abridgementCellSmall {
+  font-size: 11px;
+}
+.cellSmall {
+  font-size: 10px;
 }

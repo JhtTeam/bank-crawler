@@ -7,6 +7,9 @@ import {
     Route,
 } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import lightBaseTheme from './lightBaseTheme';
+
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import MyBottomNavigation from './components/bottomNavigation';
@@ -21,15 +24,13 @@ class App extends Component {
 
     render() {
         return (
-            <MuiThemeProvider>
+            <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
                 <Provider store={store}>
                     <Router>
                         <div className="App" style={{ minHeight: window.innerHeight }}>
                             <div style={{ flex: 1, display: 'flex', width: '100%' }}>
-
                                 <Route exact path="/" component={Passbook} />
                                 <Route path="/home" component={Home} />
-
                             </div>
                         </div>
                     </Router>
