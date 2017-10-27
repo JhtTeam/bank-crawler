@@ -9,7 +9,7 @@ export default function configureStore() {
         applyMiddleware(
             thunk,
             promiseMiddleware(),
-            // logger,
+            logger,
         ));
     return store;
 }
